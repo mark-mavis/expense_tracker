@@ -1,4 +1,4 @@
-import models.Transaction as Transaction
+import models.transaction as Transaction
 import datetime as dt
 
 class TransactionManager:

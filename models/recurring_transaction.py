@@ -1,6 +1,7 @@
-import models.Transaction as Transaction
+import models.transaction as transaction
+from datetime import date
 
-class RecurringTransaction(Transaction):
+class RecurringTransaction(transaction):
     def __init__(self, ammount: str, type: str, category: str, payee: str, issuer: str, start_date: date, end_date: date, recurrence_period: str, next_due_date: date, is_active: bool = True):
         super().__init__(ammount, type, category, payee, issuer)
         self.start_date = start_date
@@ -12,6 +13,6 @@ class RecurringTransaction(Transaction):
         return self.is_active
     def calculate_next_due_date(self) -> date:
         pass
-    def generate_next_transaction(self) -> Transaction:
+    def generate_next_transaction(self) -> transaction:
         pass
     

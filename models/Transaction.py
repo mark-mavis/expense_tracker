@@ -1,10 +1,9 @@
-from datetime import date, datetime, timezone
-import os
+from datetime import datetime
 
 class Transaction:
     counter_file = "data/transaction_counter.txt"
     
-    def __init__(self, amount: str, type: str, category: str, payee: str, issuer: str):
+    def __init__(self, amount: float, type: str, category: str, payee: str, issuer: str):
         self.id = self.generate_transaction_id()
         self.date = datetime.now()
         self.amount = amount
@@ -18,24 +17,23 @@ class Transaction:
 
     @classmethod
     def generate_transaction_id(cls):
-        # Read the last transaction number from the file
-        if os.path.exists(cls.counter_file):
-            with open(cls.counter_file, "r") as file:
+        from pathlib import Path
+
+        counter_file = Path(cls.counter_file)
+
+        # Read and update counter in a single block
+        counter = 0
+        if counter_file.exists():
+            with counter_file.open("r+") as file:
                 counter = int(file.read().strip())
+                counter += 1
+                file.seek(0)
+                file.write(str(counter))
         else:
-            counter = 0  # Start from 0 if no file exists
+            with counter_file.open("w") as file:
+                counter = 1
+                file.write(str(counter))
 
-        # Increment the counter
-        counter += 1
-
-        # Save the new counter back to the file
-        with open(cls.counter_file, "w") as file:
-            file.write(str(counter))
-
-        # Generate a transaction ID with timestamp + counter
+        # Generate a unique transaction ID
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         return f"TXN-{timestamp}-{counter:06d}"
-   
-       
-transaction: Transaction = Transaction(100, "debit", "groceries", "Whole Foods", "Mastercard")
-print(transaction.display_transaction())
