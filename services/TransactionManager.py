@@ -1,4 +1,5 @@
-import Transaction
+import models.Transaction as Transaction
+import datetime as dt
 
 class TransactionManager:
     def __init__(self):
@@ -15,7 +16,10 @@ class TransactionManager:
         pass
     
     def process_recurring_transactions(self):
-        pass
+        for transaction in self.recurring_transactions:
+            if transaction.is_active() and transaction.calculate_next_due_date() <= dt.datetime.now():
+                next_transaction = transaction.generate_next_transaction()
+                self.add_transaction(next_transaction)
     
     def get_transactions_by_category(self):
         pass
