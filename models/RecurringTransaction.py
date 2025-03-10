@@ -1,16 +1,4 @@
-from datetime import date, datetime, timezone
-
-class Transaction:
-    def __init__(self, ammount: str, type: str, category: str, payee: str, issuer: str):
-        self.date = datetime.now(timezone.utc)
-        self.ammount = ammount
-        self.type = type
-        self.category = category
-        self.payee = payee
-        self.issuer = issuer
-       
-    def display_transaction(self) -> str:
-        return f"{self.date} {self.ammount} {self.type} {self.category} {self.payee} {self.issuer}"
+import models.Transaction as Transaction
 
 class RecurringTransaction(Transaction):
     def __init__(self, ammount: str, type: str, category: str, payee: str, issuer: str, start_date: date, end_date: date, recurrence_period: str, next_due_date: date, is_active: bool = True):
@@ -26,7 +14,4 @@ class RecurringTransaction(Transaction):
         pass
     def generate_next_transaction(self) -> Transaction:
         pass
-       
-       
-# transaction: Transaction = Transaction(100, "debit", "groceries", "Whole Foods", "Mastercard")
-# print(transaction.display_transaction())
+    
