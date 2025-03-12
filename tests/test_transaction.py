@@ -17,4 +17,8 @@ def test_display_transaction():
     transaction = Transaction.Transaction(100, "debit", "groceries", "Whole Foods", "Mastercard")
     assert transaction.display_transaction() != ""
     assert transaction.display_transaction() == f"date: {transaction.date}\nid: {transaction.id}\namount: {transaction.amount}\ntype: {transaction.type}\ncategory: {transaction.category}\npayee: {transaction.payee}\nissuer: {transaction.issuer}"
-    
+
+def test_date_assigned_at_creation():
+    transaction = Transaction.Transaction(100, "debit", "groceries", "Whole Foods", "Mastercard")
+    assert isinstance(transaction.date, datetime)
+    assert transaction.date != None
